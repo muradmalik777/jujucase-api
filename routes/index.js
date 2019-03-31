@@ -10,6 +10,6 @@ router.get('/steam',
         // response will be redirected to steam
     });
 
-router.get('/user', UserController.userData);
+router.post('/user', UserController.loginOrCreateUser);
 
 module.exports = router;
