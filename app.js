@@ -11,6 +11,10 @@ mongoose.connect('mongodb://localhost/jujucase', { useNewUrlParser: true });
 mongoose.set('debug', true);
 
 require('./models/User');
+require('./models/Transaction');
+require('./models/Case');
+require('./models/Trades');
+require('./models/TradeHistory');
 require('./config/passport');
 app.use(require('./routes'));
 
