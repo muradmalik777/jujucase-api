@@ -1,12 +1,8 @@
 var mongoose = require('mongoose');
-var uniqid = require('uniqid');
 var Schema = mongoose.Schema;
 
 
 var User = new Schema({
-    id: {
-        type: String
-    },
     user_name: {
         type: String,
         default: "user_name"

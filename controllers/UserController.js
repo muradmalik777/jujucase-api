@@ -9,7 +9,7 @@ exports.loginOrCreateUser = function(req, res){
     var key = process.env.API_KEY
     var steamid = req.body.id
     var url = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key='+key+ '&steamids='+steamid;
-    UserModel.find({ steam_id: steamid }, function (err, user) {
+    UserModel.findOne({ steam_id: steamid }, function (err, user) {
         if (user) {
             res.send(user)
         } else {
@@ -30,7 +30,6 @@ exports.loginOrCreateUser = function(req, res){
 
 function prepareUserData(data){
     return {
-        id: uniqid(),
         user_name: data[0].personaname,
         avatar: data[0].avatarmedium,
         steam_id: data[0].steamid
