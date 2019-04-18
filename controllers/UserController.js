@@ -1,9 +1,8 @@
 'use strict';
 const request = require('request');
-const mongoose = require('mongoose'),
-UserModel = mongoose.model('User');
+const mongoose = require('mongoose');
+const UserModel = mongoose.model('User');
 require('dotenv').config();
-const uniqid = require('uniqid');
 
 exports.loginOrCreateUser = function(req, res){
     var key = process.env.API_KEY
