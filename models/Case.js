@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 
-var Case = new Schema({
+let CaseSchema = new Schema({
     user_name: {
         type: String,
         default: "user_name"
@@ -15,4 +15,5 @@ var Case = new Schema({
     }
 });
 
-module.exports = mongoose.model('Case', Case);
+const Case = mongoose.model('Case', CaseSchema);
+module.exports = Case;
