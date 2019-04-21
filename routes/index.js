@@ -12,4 +12,7 @@ router.get('/steam',
 
 router.post('/user', UserController.loginOrCreateUser);
 
+// Case Controller
+require('../controllers/CaseController')(router);
+
 module.exports = router;
