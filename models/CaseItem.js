@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let CaseItemSchema = new Schema({
-    case_id: Number,
+    case_id: String,
     percentage: mongoose.Decimal128,
     lrange: mongoose.Decimal128,
     hrange: mongoose.Decimal128,
