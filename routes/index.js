@@ -15,4 +15,7 @@ router.post('/user', UserController.loginOrCreateUser);
 // Case Controller
 require('../controllers/CaseController')(router);
 
+// Transaction Controller
+require('../controllers/TransactionController')(router);
+
 module.exports = router;

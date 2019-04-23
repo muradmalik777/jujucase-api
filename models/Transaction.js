@@ -1,18 +1,13 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 
-var Transaction = new Schema({
-    user_name: {
-        type: String,
-        default: "user_name"
-    },
-    avatar: {
-        type: String
-    },
-    steam_id: {
-        type: Number
-    }
+let TransactionSchema = new Schema({
+
+    steam_id: String,
+    amount: mongoose.Decimal128,
+    description: String,
+    time: Number
 });
-
-module.exports = mongoose.model('Transaction', Transaction);
+const Transaction = mongoose.model('transaction', TransactionSchema);
+module.exports = Transaction;
