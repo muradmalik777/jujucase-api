@@ -1,18 +1,36 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 
-var Case = new Schema({
-    user_name: {
+let CaseSchema = new Schema({
+    name: {
         type: String,
-        default: "user_name"
+        default: "name"
     },
-    avatar: {
-        type: String
-    },
-    steam_id: {
-        type: Number
-    }
+    price: mongoose.Decimal128,
+    tax: mongoose.Decimal128,
+    affiliateCut: mongoose.Decimal128,
+    creator: String,
+    opened: Number,
+    opened1d: Number,
+    opened7d: Number,
+    opened2w: Number,
+    case_image: String,
+    skin_image: String,
+    type: String,
+    game: String,
+    code: String,
+    featured: Number,
+    bid_place: Number,
+    bid_amount: mongoose.Decimal128,
+    bid_time: Number,
+    created: Number,
+    invalid: Number,
+    last_update: Number,
+    avatar: String,
+    steam_id: String
+
 });
 
-module.exports = mongoose.model('Case', Case);
+const Case = mongoose.model('Case', CaseSchema);
+module.exports = Case;

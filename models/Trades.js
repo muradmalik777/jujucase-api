@@ -3,22 +3,12 @@ var Schema = mongoose.Schema;
 
 
 var Trades = new Schema({
-    amount: {
-        type: Number
-    },
-    status: {
-        type: String
-    },
-    code: {
-        type: Number
-    },
-    bot: {
-        type: String
-    },
-    time: {
-        type: Date,
-        default: Date.now
-    }
+    amount:  mongoose.Decimal128,
+    status:  String,
+    code: Number,
+    bot_id: String,
+    steam_id: String,
+    time: Number
 });
 
 module.exports = mongoose.model('Trades', Trades);

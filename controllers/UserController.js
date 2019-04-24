@@ -1,7 +1,6 @@
 'use strict';
 const request = require('request');
-const mongoose = require('mongoose');
-const UserModel = mongoose.model('User');
+const UserModel = require('../models/User');
 require('dotenv').config();
 
 exports.loginOrCreateUser = function(req, res){
