@@ -67,7 +67,7 @@ module.exports = function (router) {
 
     // Create a trade
     router.post(TradesUrl, function (req, res) {
-        User.findOne({steam_id: req.params.steamId}).exec().exec()
+        User.findOne({steam_id: req.params.steamId}).exec()
             .then(docs => {
                 if (docs) {
                     req.body = {...req.body, steam_id: req.params.steamId};
