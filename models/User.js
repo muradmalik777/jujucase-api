@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-var User = new Schema({
+var UserSchema = new Schema({
     user_name: {
         type: String,
         default: "user_name"
@@ -80,4 +80,5 @@ var User = new Schema({
 
 });
 
-module.exports = mongoose.model('User', User);
+const User = mongoose.model('User', UserSchema);
+module.exports = User;

@@ -1,6 +1,7 @@
 const Case = require('../models/Case');
 const _ = require('lodash');
 let casesUrl = '/cases/';
+
 module.exports = function (router) {
 
     // Get all cases

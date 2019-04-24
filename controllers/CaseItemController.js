@@ -2,9 +2,10 @@ const CaseItem = require('../models/CaseItem');
 const Case = require('../models/Case');
 const _ = require('lodash');
 const caseItemUrl = '/cases/:caseId/items/';
+
 module.exports = function (router) {
 
-    // Get all items of a case
+    // Get all items of a case items
     router.get(caseItemUrl, function (req, res) {
         Case.findById(req.params.caseId).exec()
             .then(docs => {
@@ -33,7 +34,7 @@ module.exports = function (router) {
             });
     });
 
-    // Get case by id
+    // Get case item by id
     router.get(`${caseItemUrl}:id`, function (req, res) {
         Case.findById(req.params.caseId).exec()
             .then(docs => {
@@ -62,7 +63,7 @@ module.exports = function (router) {
             });
     });
 
-    // Create a case
+    // Create a case item
     router.post(caseItemUrl, function (req, res) {
         Case.findById(req.params.caseId).exec()
             .then(docs => {
@@ -89,7 +90,7 @@ module.exports = function (router) {
             });
     });
 
-    // Update a case
+    // Update a case item
     router.put(`${caseItemUrl}:id`, function (req, res) {
         Case.findById(req.params.caseId).exec()
             .then(docs => {
@@ -134,7 +135,7 @@ module.exports = function (router) {
             });
     });
 
-    //Delete a case
+    //Delete a case item
     router.delete(`${caseItemUrl}:id`, function (req, res) {
         Case.findById(req.params.caseId).exec()
             .then(docs => {
