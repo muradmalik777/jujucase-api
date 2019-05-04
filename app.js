@@ -17,7 +17,7 @@ db.once('open', function () {
 });
 
 //Cron job to fetch items daily
-cron.schedule("43 21 * * *", function () {
+cron.schedule("57 21 * * *", function () {
     updateItems()
 });
 
@@ -25,6 +25,7 @@ cron.schedule("43 21 * * *", function () {
 require('./models/User');
 require('./models/Transaction');
 require('./models/Case');
+require('./models/Item');
 require('./models/Trades');
 require('./models/TradeHistory');
 require('./config/passport');
@@ -42,7 +43,7 @@ function updateItems(){
             var inventory = JSON.parse(body)
             inventory.forEach(item => {
                 var newInventoryItem = new Items(item)
-                // newInventoryItem.save()
+                newInventoryItem.save()
             });
         }
     });
