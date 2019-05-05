@@ -16,7 +16,7 @@ db.once('open', function () {
     console.log('Connected to MongoDB');
 });
 
-//Cron job to fetch items daily
+updateItems()
 cron.schedule("15 13 * * *", function () {
     updateItems()
 });
