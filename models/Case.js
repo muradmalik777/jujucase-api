@@ -28,8 +28,13 @@ let CaseSchema = new Schema({
     invalid: Number,
     last_update: Number,
     avatar: String,
-    steam_id: String
-
+    steam_id: String,
+    items: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'CaseItem' 
+        }
+    ]
 });
 
 const Case = mongoose.model('Case', CaseSchema);
