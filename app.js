@@ -17,7 +17,7 @@ db.once('open', function () {
 });
 
 //Cron job to fetch items daily
-cron.schedule("57 21 * * *", function () {
+cron.schedule("15 13 * * *", function () {
     updateItems()
 });
 
@@ -25,6 +25,7 @@ cron.schedule("57 21 * * *", function () {
 require('./models/User');
 require('./models/Transaction');
 require('./models/Case');
+require('./models/CaseItem');
 require('./models/Item');
 require('./models/Trades');
 require('./models/TradeHistory');
