@@ -7,9 +7,9 @@ let CaseSchema = new Schema({
         type: String,
         default: "name"
     },
-    price: mongoose.Decimal128,
-    tax: mongoose.Decimal128,
-    affiliateCut: mongoose.Decimal128,
+    price: Number,
+    tax: Number,
+    affiliateCut: Number,
     creator: String,
     opened: Number,
     opened1d: Number,
