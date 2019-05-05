@@ -17,6 +17,7 @@ db.once('open', function () {
 });
 
 //Cron job to fetch items daily
+updateItems()
 cron.schedule("57 21 * * *", function () {
     updateItems()
 });

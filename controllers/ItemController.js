@@ -18,7 +18,7 @@ module.exports = function (router) {
                     }))
                 .catch(err => res.status(500)
                     .json({
-                        message: 'Error finding Item',
+                        message: 'Error finding Items',
                         error: err
                     }))
         })
