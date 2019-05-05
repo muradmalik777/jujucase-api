@@ -6,7 +6,8 @@ module.exports = function (router) {
 
     // Get all items
     router.get(itemsUrl, function (req, res) {
-        Item.find().limit(15).skip(req.params.p * 15).exec()
+        var limit = 10
+        Item.find().limit(limit).skip(req.params.p * limit).exec()
             .then(docs => res.status(200)
                 .json(docs))
             .catch(err => res.status(500)
