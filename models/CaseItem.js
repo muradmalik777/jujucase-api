@@ -2,12 +2,25 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let CaseItemSchema = new Schema({
-    case_id: String,
-    percentage: mongoose.Decimal128,
-    lrange: mongoose.Decimal128,
-    hrange: mongoose.Decimal128,
-    market_hash_name: String
+    marketHashName: String,
+    appId: String,
+    contextId: String,
+    iconUrl: String,
+    itemColor: String,
+    rarityColor: String,
+    description: String,
+    firstSeen: String,
+    price: Number,
+    isSafePrice: Boolean,
+    odds: {
+        type: Number,
+        default: 0
+    },
+    belongsToCase: {
+        type: Schema.Types.ObjectId,
+        ref: 'Case'
+    }
 });
 
-const CaseItem = mongoose.model('case_item', CaseItemSchema);
+const CaseItem = mongoose.model('CaseItem', CaseItemSchema);
 module.exports = CaseItem;
