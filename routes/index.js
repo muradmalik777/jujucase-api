@@ -15,6 +15,9 @@ router.post('/user', UserController.loginOrCreateUser);
 // Case Controller
 require('../controllers/CaseController')(router);
 
+// Item Controller
+require('../controllers/ItemController')(router);
+
 // Case Item Controller
 require('../controllers/CaseItemController')(router);
 

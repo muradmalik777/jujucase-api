@@ -2,14 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let ItemSchema = new Schema({
-    
-    owner: String,
-    game: String,
-    market_hash_name: String,
-    withdrawable: Number,
-    demo: Number,
-    time: Number,
+    marketHashName: String,
+    appId: String,
+    contextId: String,
+    iconUrl: String,
+    itemColor: String,
+    rarityColor: String,
+    description: String,
+    firstSeen: String,
+    price: Number,
+    isSafePrice: Boolean
 });
 
-const Item = mongoose.model('item',  ItemSchema);
+const Item = mongoose.model('items',  ItemSchema);
 module.exports = Item;
