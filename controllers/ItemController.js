@@ -6,15 +6,22 @@ module.exports = function (router) {
 
     // Get all items
     router.get(itemsUrl, function (req, res) {
-        var limit = 10
-        Item.find().limit(limit).skip(req.params.p * limit).exec()
-            .then(docs => res.status(200)
-                .json(docs))
-            .catch(err => res.status(500)
-                .json({
-                    message: 'Error finding Item',
-                    error: err
-                }))
+        var limit = 12
+        var totalCount = 0
+        Item.count().exec().then(count => {
+            totalCount = count
+            Item.find().limit(limit).skip(req.params.p * limit).exec()
+                .then(docs => res.status(200)
+                    .json({
+                        "totalCount": totalCount,
+                        "items": docs
+                    }))
+                .catch(err => res.status(500)
+                    .json({
+                        message: 'Error finding Item',
+                        error: err
+                    }))
+        })
     });
 
     // Get Item by id
