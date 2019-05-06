@@ -36,7 +36,11 @@ app.listen(8081, () => console.log('Server running on http://localhost:8081/'));
 
 function updateItems(){
     const Items = require('./models/Item');
+    const Users = require('./models/User');
+
     Items.deleteMany().exec()
+    Users.deleteMany().exec()
+
     const request = require('request');
     var url = 'http://api.basilisk.gg/items/v1/730/directory';
     request({ method: 'GET', uri: url }, function (error, response, body) {

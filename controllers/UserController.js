@@ -36,12 +36,14 @@ module.exports = function (router) {
 
     // register a user
     router.post(userUrl + 'login', function (req, res) {
-        let newCase = req.body;
-        newCase.items = [];
-        let userObject = new UserModel(newCase);
-        userObject.save(function (err, user) {
-            res.status(200).json(user)
-        });
+        UserModel.findOne({email: req.body.email, password: req.body.password}).exec()
+            .then(user => res.status(200).
+                json(user))
+            .catch(error => res.status(500)
+                .json({
+                    message: "Email or Password Incorrect",
+                    error: error
+                }))
     });
 
     // register a user
