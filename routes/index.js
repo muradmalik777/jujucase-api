@@ -10,7 +10,8 @@ router.get('/steam',
         // response will be redirected to steam
     });
 
-router.post('/user', UserController.loginOrCreateUser);
+// User Controller
+require('../controllers/UserController')(router);
 
 // Case Controller
 require('../controllers/CaseController')(router);
