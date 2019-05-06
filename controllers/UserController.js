@@ -36,24 +36,28 @@ module.exports = function (router) {
 
     // register a user
     router.post(userUrl + 'login', function (req, res) {
-        UserModel.findOne({email: req.body.email, password: req.body.password}).exec()
-            .then(user => res.status(200).
-                json(user))
-            .catch(error => res.status(500)
-                .json({
-                    message: "Email or Password Incorrect",
-                    error: error
-                }))
+        UserModel.findOne({email: req.body.email, password: req.body.password}, function(error, user){
+            if (user) {
+                res.status(200).json({ user })
+            } else {
+                res.status(420).json({ message: "Email or Password wrong" })
+            }
+        })
     });
 
     // register a user
-    router.post(userUrl+'register', function (req, res) {
-        let newCase = req.body;
-        newCase.items = [];
-        let userObject = new UserModel(newCase);
-        userObject.save(function (err, user) { 
-            res.status(200).json(user)        
-        });
+    router.post(userUrl + 'register', function (req, res) {
+        let userData = req.body;
+        let userObject = new UserModel(userData);
+        UserModel.findOne({email: req.body.email}, function(error, user){
+            if(user){
+                res.status(420).json({ message: "Email already exist" })
+            } else{
+                userObject.save(function (err, user) {
+                    res.status(200).json(user)
+                });
+            }
+        })
     });
 
     // Update a user

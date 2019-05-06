@@ -16,7 +16,10 @@ var UserSchema = new Schema({
         default: null
     },
     avatar: String,
-    steam_id: Number,
+    steam_id: {
+        type: String,
+        default: null
+    },
     referral: String,
     code: String,
     hash: String,
