@@ -7,8 +7,19 @@ var UserSchema = new Schema({
         type: String,
         default: "user_name"
     },
+    email: {
+        type: String,
+        default: null
+    },
+    password: {
+        type: String,
+        default: null
+    },
     avatar: String,
-    steam_id: Number,
+    steam_id: {
+        type: String,
+        default: null
+    },
     referral: String,
     code: String,
     hash: String,
@@ -21,15 +32,15 @@ var UserSchema = new Schema({
         default: 0
     },
     balance: {
-        type: mongoose.Decimal128,
-        default: 0.00000
+        type: Number,
+        default: 0
     },
     oldbalance: {
-        type: mongoose.Decimal128,
-        default: 0.00000
+        type: Number,
+        default: 0
     },
     deposited: {
-        type: mongoose.Decimal128,
+        type: Number,
         default: 0
     },
     visitors: {
@@ -41,19 +52,19 @@ var UserSchema = new Schema({
         default: 0
     },
     claim: {
-        type: mongoose.Decimal128,
+        type: Number,
         default: 0
     },
     earnings: {
-        type: mongoose.Decimal128,
+        type: Number,
         default: 0
     },
     refprofit: {
-        type: mongoose.Decimal128,
+        type: Number,
         default: 0
     },
     profit: {
-        type: mongoose.Decimal128,
+        type: Number,
         default: 0
     },
     demo: {

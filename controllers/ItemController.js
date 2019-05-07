@@ -8,7 +8,7 @@ module.exports = function (router) {
     router.get(itemsUrl, function (req, res) {
         var limit = 12
         var totalCount = 0
-        Item.count().exec().then(count => {
+        Item.countDocuments().exec().then(count => {
             totalCount = count
             Item.find().limit(limit).skip(req.params.p * limit).exec()
                 .then(docs => res.status(200)
