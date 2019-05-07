@@ -42,6 +42,7 @@ module.exports = function (router) {
             if (user) {
                 bcrypt.compare(req.body.password, user.password).then(function (success) {
                     if(success){
+                        delete user.password
                         res.status(200).json(user)
                     } else{
                         res.status(421).json("wrong password")
@@ -64,6 +65,7 @@ module.exports = function (router) {
                     userData.password = hash
                     let userObject = new UserModel(userData);
                     userObject.save(function (err, user) {
+                        delete user.password
                         res.status(200).json(user)
                     });
                 });
