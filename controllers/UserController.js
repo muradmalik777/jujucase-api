@@ -1,6 +1,8 @@
 const request = require('request');
 const UserModel = require('../models/User');
 require('dotenv').config();
+const bcrypt = require('bcrypt');
+const saltRounds = 3;
 let userUrl = '/user/';
 
 
@@ -34,13 +36,19 @@ module.exports = function (router) {
         });
     })
 
-    // register a user
+    // login a user
     router.post(userUrl + 'login', function (req, res) {
-        UserModel.findOne({email: req.body.email, password: req.body.password}, function(error, user){
+        UserModel.findOne({email: req.body.email}, function(error, user){
             if (user) {
-                res.status(200).json({ user })
+                bcrypt.compare(req.body.password, user.password).then(function (success) {
+                    if(success){
+                        res.status(200).json(user)
+                    } else{
+                        res.status(421).json("wrong password")
+                    }
+                });
             } else {
-                res.status(420).json({ message: "Email or Password wrong" })
+                res.status(420).json({ message: "Email not found" })
             }
         })
     });
@@ -48,13 +56,16 @@ module.exports = function (router) {
     // register a user
     router.post(userUrl + 'register', function (req, res) {
         let userData = req.body;
-        let userObject = new UserModel(userData);
         UserModel.findOne({email: req.body.email}, function(error, user){
             if(user){
                 res.status(420).json({ message: "Email already exist" })
             } else{
-                userObject.save(function (err, user) {
-                    res.status(200).json(user)
+                bcrypt.hash(req.body.password, saltRounds).then(function (hash) {
+                    userData.password = hash
+                    let userObject = new UserModel(userData);
+                    userObject.save(function (err, user) {
+                        res.status(200).json(user)
+                    });
                 });
             }
         })
