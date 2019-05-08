@@ -10,7 +10,7 @@ module.exports = function (router) {
         var totalCount = 0
         Item.countDocuments().exec().then(count => {
             totalCount = count
-            Item.find().limit(limit).skip(req.params.p * limit).exec()
+            Item.find().limit(limit).skip(req.query.p * limit).exec()
                 .then(docs => res.status(200)
                     .json({
                         "totalCount": totalCount,
