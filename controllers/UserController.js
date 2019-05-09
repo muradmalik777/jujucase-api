@@ -80,15 +80,13 @@ module.exports = function (router) {
     router.post(userUrl + 'deposit', function (req, res) {
         UserModel.findOne({ email: req.body.user.email }, function (error, user) {
             console.log(user)
-            var url = "https://api.gamerpay.com/merchants/v1/payments/"
+            var url = "https://api.gamerpay.com/merchants/v1/payments?access_token=f898c80e-2e90-4c08-9011-e9b9e22a2e1e"
             var depositData = req.body.deposit
             depositData.transactionId = generateId()
             if (user) {
                 request({ method: 'POST', uri: url, json: depositData }, function (error, response, body) {
                     if(response.statusCode == 200){
-                        var data = JSON.parse(body)
-                        console.log(data)
-                        res.status(200).json(data)
+                        res.status(200).json(body)
                     } else{
                         res.status(response.statusCode).json(response)
                     }
