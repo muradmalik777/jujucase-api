@@ -1,5 +1,6 @@
 const request = require('request');
 const UserModel = require('../models/User');
+const generateId = require('uniqid');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const saltRounds = 3;
@@ -54,6 +55,8 @@ module.exports = function (router) {
         })
     });
 
+
+
     // register a user
     router.post(userUrl + 'register', function (req, res) {
         let userData = req.body;
@@ -69,6 +72,29 @@ module.exports = function (router) {
                         res.status(200).json(user)
                     });
                 });
+            }
+        })
+    });
+
+    // user deposits
+    router.post(userUrl + 'deposit', function (req, res) {
+        UserModel.findOne({ email: req.body.user.email }, function (error, user) {
+            console.log(user)
+            var url = "https://api.gamerpay.com/merchants/v1/payments/"
+            var depositData = req.body.deposit
+            depositData.transactionId = generateId()
+            if (user) {
+                request({ method: 'POST', uri: url, json: depositData }, function (error, response, body) {
+                    if(response.statusCode == 200){
+                        var data = JSON.parse(body)
+                        console.log(data)
+                        res.status(200).json(data)
+                    } else{
+                        res.status(response.statusCode).json(response)
+                    }
+                });
+            } else {
+                res.status(420).json({ message: "Email not found" })
             }
         })
     });
