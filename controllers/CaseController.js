@@ -7,14 +7,21 @@ module.exports = function (router) {
 
     // Get all cases
     router.get(casesUrl, function (req, res) {
-        Case.find().populate('items').exec(function (err, stores) {
-            if (err) {
-                res.status(500).json({
-                    message: 'Error finding case',
-                    error: err
-                })
-            }
-            res.status(200).json(stores)
+        var limit = 12
+        var totalCount = 0
+        Case.countDocuments().exec().then(count => {
+            totalCount = count
+            Case.find().limit(limit).skip((req.query.p - 1) * limit).populate('items').exec()
+                .then(docs => res.status(200)
+                    .json({
+                        "totalCount": totalCount,
+                        "items": docs
+                    }))
+                .catch(err => res.status(500)
+                    .json({
+                        message: 'Error finding Items',
+                        error: err
+                    }))
         })
     });
 
