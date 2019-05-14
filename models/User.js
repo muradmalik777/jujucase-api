@@ -16,7 +16,7 @@ var UserSchema = new Schema({
         default: null
     },
     avatar: String,
-    steam_id: {
+    steamId: {
         type: String,
         default: null
     },
@@ -35,51 +35,7 @@ var UserSchema = new Schema({
         type: Number,
         default: 0
     },
-    oldbalance: {
-        type: Number,
-        default: 0
-    },
-    deposited: {
-        type: Number,
-        default: 0
-    },
-    visitors: {
-        type: Number,
-        default: 0
-    },
-    depositors: {
-        type: Number,
-        default: 0
-    },
-    claim: {
-        type: Number,
-        default: 0
-    },
-    earnings: {
-        type: Number,
-        default: 0
-    },
-    refprofit: {
-        type: Number,
-        default: 0
-    },
-    profit: {
-        type: Number,
-        default: 0
-    },
-    demo: {
-        type: Number,
-        default: 0
-    },
-    daily: {
-        type: Number,
-        default: 0
-    },
-    group: {
-        type: Number,
-        default: 0
-    },
-    last_profit_update: {
+    oldBalance: {
         type: Number,
         default: 0
     },
@@ -87,7 +43,7 @@ var UserSchema = new Schema({
         type: Number,
         default: 0
     },
-    ban_reason: String
+    banReason: String
 
 });
 

@@ -23,7 +23,7 @@ module.exports = function (router) {
                         var data = {
                             user_name: steam.response.players[0].personaname,
                             avatar: steam.response.players[0].avatarmedium,
-                            steam_id: steam.response.players[0].steamid
+                            steamId: steam.response.players[0].steamid
                         }
                         var userObject = new UserModel(data)
                         userObject.save(function(error, user){

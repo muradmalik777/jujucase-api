@@ -14,7 +14,7 @@ module.exports = function (router) {
             Case.find().limit(limit).skip((req.query.p - 1) * limit).populate('items').exec()
                 .then(docs => res.status(200)
                     .json({
-                        "totalCount": totalCount,
+                        "total_count": totalCount,
                         "items": docs
                     }))
                 .catch(err => res.status(500)

@@ -13,7 +13,7 @@ module.exports = function (router) {
             Item.find({ price: { $gt: 0 } }).limit(limit).skip(req.query.p * limit).exec()
                 .then(docs => res.status(200)
                     .json({
-                        "totalCount": totalCount,
+                        "total_count": totalCount,
                         "items": docs
                     }))
                 .catch(err => res.status(500)
