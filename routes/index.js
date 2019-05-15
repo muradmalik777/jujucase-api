@@ -10,22 +10,13 @@ router.get('/steam',
         // response will be redirected to steam
     });
 
-// User Controller
+
 require('../controllers/UserController')(router);
-
-// Case Controller
+require('../controllers/DepositController')(router);
 require('../controllers/CaseController')(router);
-
-// Item Controller
 require('../controllers/ItemController')(router);
-
-// Case Item Controller
 require('../controllers/CaseItemController')(router);
-
-// Trade Controller
 require('../controllers/TradesController')(router);
-
-// Transaction Controller
 require('../controllers/TransactionController')(router);
 
 

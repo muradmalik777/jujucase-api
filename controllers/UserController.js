@@ -1,5 +1,6 @@
 const request = require('request');
 const UserModel = require('../models/User');
+const generateId = require('uniqid');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const saltRounds = 3;
@@ -22,7 +23,7 @@ module.exports = function (router) {
                         var data = {
                             user_name: steam.response.players[0].personaname,
                             avatar: steam.response.players[0].avatarmedium,
-                            steam_id: steam.response.players[0].steamid
+                            steamId: steam.response.players[0].steamid
                         }
                         var userObject = new UserModel(data)
                         userObject.save(function(error, user){
@@ -42,6 +43,7 @@ module.exports = function (router) {
             if (user) {
                 bcrypt.compare(req.body.password, user.password).then(function (success) {
                     if(success){
+                        delete user.password
                         res.status(200).json(user)
                     } else{
                         res.status(421).json("wrong password")
@@ -52,6 +54,8 @@ module.exports = function (router) {
             }
         })
     });
+
+
 
     // register a user
     router.post(userUrl + 'register', function (req, res) {
@@ -64,9 +68,31 @@ module.exports = function (router) {
                     userData.password = hash
                     let userObject = new UserModel(userData);
                     userObject.save(function (err, user) {
+                        delete user.password
                         res.status(200).json(user)
                     });
                 });
+            }
+        })
+    });
+
+    // user deposits
+    router.post(userUrl + 'deposit', function (req, res) {
+        UserModel.findOne({ email: req.body.user.email }, function (error, user) {
+            console.log(user)
+            var url = "https://api.gamerpay.com/merchants/v1/payments?access_token=f898c80e-2e90-4c08-9011-e9b9e22a2e1e"
+            var depositData = req.body.deposit
+            depositData.transactionId = generateId()
+            if (user) {
+                request({ method: 'POST', uri: url, json: depositData }, function (error, response, body) {
+                    if(response.statusCode == 200){
+                        res.status(200).json(body)
+                    } else{
+                        res.status(response.statusCode).json(response)
+                    }
+                });
+            } else {
+                res.status(420).json({ message: "Email not found" })
             }
         })
     });

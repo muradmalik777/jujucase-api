@@ -16,19 +16,12 @@ db.once('open', function () {
     console.log('Connected to MongoDB');
 });
 
-updateItems()
+// updateItems()
 cron.schedule("15 13 * * *", function () {
     updateItems()
 });
 
 
-require('./models/User');
-require('./models/Transaction');
-require('./models/Case');
-require('./models/CaseItem');
-require('./models/Item');
-require('./models/Trades');
-require('./models/TradeHistory');
 require('./config/passport');
 app.use(require('./routes'));
 

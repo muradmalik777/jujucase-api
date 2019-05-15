@@ -8,12 +8,12 @@ module.exports = function (router) {
     router.get(itemsUrl, function (req, res) {
         var limit = 12
         var totalCount = 0
-        Item.countDocuments().exec().then(count => {
+        Item.countDocuments({ price: { $gt: 0 } }).exec().then(count => {
             totalCount = count
-            Item.find().limit(limit).skip(req.params.p * limit).exec()
+            Item.find({ price: { $gt: 0 } }).limit(limit).skip(req.query.p * limit).exec()
                 .then(docs => res.status(200)
                     .json({
-                        "totalCount": totalCount,
+                        "total_count": totalCount,
                         "items": docs
                     }))
                 .catch(err => res.status(500)
