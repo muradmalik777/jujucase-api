@@ -16,7 +16,7 @@ db.once('open', function () {
     console.log('Connected to MongoDB');
 });
 
-// updateItems()
+updateItems()
 cron.schedule("15 13 * * *", function () {
     updateItems()
 });
@@ -29,8 +29,7 @@ app.listen(8081, () => console.log('Server running on http://localhost:8081/'));
 
 function updateItems(){
     const Items = require('./models/Item');
-    const Users = require('./models/User');
-    Items.deleteMany().exec()
+    // Items.deleteMany().exec()
     const request = require('request');
     var url = 'http://api.basilisk.gg/items/v1/730/directory';
     request({ method: 'GET', uri: url }, function (error, response, body) {
@@ -38,7 +37,11 @@ function updateItems(){
             var inventory = JSON.parse(body)
             inventory.forEach(item => {
                 var newInventoryItem = new Items(item)
-                newInventoryItem.save()
+                Items.findOne({ 'marketHashName': item.marketHashName }, function(error, doc){
+                    if(!doc){
+                        newInventoryItem.save()
+                    }
+                });
             });
         }
     });

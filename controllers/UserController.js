@@ -37,6 +37,11 @@ module.exports = function (router) {
         });
     })
 
+    // get clientHash
+    router.get('/hash', function (req, res) {
+        res.status(200).json(generateId())
+    });
+
     // login a user
     router.post(userUrl + 'login', function (req, res) {
         UserModel.findOne({email: req.body.email}, function(error, user){
