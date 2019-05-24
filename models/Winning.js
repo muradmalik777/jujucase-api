@@ -10,8 +10,12 @@ var WinningSchema = new Schema({
     roundSecret: String,
     ticketNumber: Number,
     winningItem: String,
-    time: { type: Date, default: Date.now }
+    time: { type: Date, default: Date.now },
+    item: {
+        type: Schema.Types.ObjectId,
+        ref: 'CaseItem'
+    }
 });
 
-const Winning = mongoose.model('Winning', WinningSchema);
-module.exports = Winning;
+const model = mongoose.model('Winning', WinningSchema);
+module.exports = model;

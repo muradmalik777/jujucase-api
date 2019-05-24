@@ -84,7 +84,6 @@ module.exports = function (router) {
     // user deposits
     router.post(userUrl + 'deposit', function (req, res) {
         UserModel.findOne({ email: req.body.user.email }, function (error, user) {
-            console.log(user)
             var url = "https://api.gamerpay.com/merchants/v1/payments?access_token=f898c80e-2e90-4c08-9011-e9b9e22a2e1e"
             var depositData = req.body.deposit
             depositData.transactionId = generateId()

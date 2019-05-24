@@ -5,23 +5,25 @@ const Winnings = require('../models/Winning');
 
 module.exports = function (router) {
 
-    // Get all cases opened byt user
-    router.post(winningUrl, function (req, res) {
+    // Get all items won by a specific user
+    router.post('/user/winning', function (req, res) {
         var limit = 12
         var totalCount = 0
-        Case.countDocuments().exec().then(count => {
+        Winnings.countDocuments({ user_id: req.body.user_id }).exec().then(count => {
             totalCount = count
-            Case.find().limit(limit).skip((req.query.p - 1) * limit).populate('items').exec()
-                .then(docs => res.status(200)
-                    .json({
-                        "total_count": totalCount,
-                        "items": docs
-                    }))
-                .catch(err => res.status(500)
-                    .json({
-                        message: 'Error finding Items',
-                        error: err
-                    }))
+            Winnings.find({ user_id: req.body.user_id }).limit(limit).skip(req.query.p * limit).populate('item').exec().then(docs => {
+                res.status(200).json({
+                    total_count: totalCount,
+                    items: docs
+                })
+            })
+        })
+    });
+
+    // Get all items won from a specific case
+    router.post('/case/winning', function (req, res) {
+        Winnings.find({case_id: req.body.case_id}).limit(12).populate('item').exec().then(docs => {
+            res.status(200).json(docs)
         })
     });
 };

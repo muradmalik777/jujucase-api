@@ -12,9 +12,9 @@ module.exports = function (router) {
     router.get(caseOpenedUrl, function (req, res) {
         var limit = 12
         var totalCount = 0
-        Case.countDocuments().exec().then(count => {
+        CaseOpened.countDocuments().exec().then(count => {
             totalCount = count
-            Case.find().limit(limit).skip((req.query.p - 1) * limit).populate('items').exec()
+            CaseOpened.find().limit(limit).skip((req.query.p - 1) * limit).populate('items').exec()
                 .then(docs => res.status(200)
                     .json({
                         "total_count": totalCount,
@@ -39,13 +39,15 @@ module.exports = function (router) {
                     let url = "http://pandorarng.azurewebsites.net/outcomes/v1"
                     request({ method: 'POST', uri: url, json: data }, function (error, response, body) {
                         if (response.statusCode == 200) {
-                            let winningObject = new Winnings(winningData(body, req.body.hash, req.body.user_id))
+                            let winningObject = new Winnings(winningData(body, req.body.hash, req.body.user_id, req.body.case_id))
+                            let win = caseFound.items.find(item => item.marketHashName === body.winningItem)
+                            winningObject.item = win
                             winningObject.save(function(error, docs){
                                 caseOpenedObject.save()
                                 user.balance = user.balance - caseFound.price
                                 user.save()
                                 res.status(200).json({
-                                    purchases: true,
+                                    purchased: true,
                                     winning: docs,
                                     user: user
                                 })
@@ -62,9 +64,10 @@ module.exports = function (router) {
     });
 };
 
-function winningData(data, hash, user_id){
+function winningData(data, hash, user_id, case_id){
     data.clientHash = hash,
     data.user_id = user_id
+    data.case_id = case_id
     return data
 }
 
