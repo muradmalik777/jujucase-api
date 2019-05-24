@@ -37,6 +37,11 @@ module.exports = function (router) {
         });
     })
 
+    // get clientHash
+    router.get('/hash', function (req, res) {
+        res.status(200).json(generateId())
+    });
+
     // login a user
     router.post(userUrl + 'login', function (req, res) {
         UserModel.findOne({email: req.body.email}, function(error, user){
@@ -46,7 +51,7 @@ module.exports = function (router) {
                         delete user.password
                         res.status(200).json(user)
                     } else{
-                        res.status(421).json("wrong password")
+                        res.status(421).json({ message: "Wrong Password" })
                     }
                 });
             } else {
@@ -79,7 +84,6 @@ module.exports = function (router) {
     // user deposits
     router.post(userUrl + 'deposit', function (req, res) {
         UserModel.findOne({ email: req.body.user.email }, function (error, user) {
-            console.log(user)
             var url = "https://api.gamerpay.com/merchants/v1/payments?access_token=f898c80e-2e90-4c08-9011-e9b9e22a2e1e"
             var depositData = req.body.deposit
             depositData.transactionId = generateId()
