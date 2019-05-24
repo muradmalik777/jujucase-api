@@ -9,5 +9,5 @@ var CaseOpenedSchema = new Schema({
     time: { type: Date, default: Date.now }
 });
 
-const User = mongoose.model('CaseOpened', CaseOpenedSchema);
-module.exports = User;
+const OpenCase = mongoose.model('OpenCase', CaseOpenedSchema);
+module.exports = OpenCase;

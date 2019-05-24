@@ -18,5 +18,6 @@ require('../controllers/ItemController')(router);
 require('../controllers/CaseItemController')(router);
 require('../controllers/TradesController')(router);
 require('../controllers/TransactionController')(router);
-require('../controllers/CaseOpenedController')(router);
+require('../controllers/OpenCaseController')(router);
+require('../controllers/WinningController')(router);
 module.exports = router;

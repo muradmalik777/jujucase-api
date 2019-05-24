@@ -51,7 +51,7 @@ module.exports = function (router) {
                         delete user.password
                         res.status(200).json(user)
                     } else{
-                        res.status(421).json("wrong password")
+                        res.status(421).json({ message: "Wrong Password" })
                     }
                 });
             } else {
