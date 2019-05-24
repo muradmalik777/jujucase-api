@@ -42,6 +42,12 @@ module.exports = function (router) {
         res.status(200).json(generateId())
     });
 
+    router.get(`${userUrl}count/`, function (req, res) {
+        UserModel.countDocuments().exec().then(count => {
+            res.status(200).json(count)
+        })
+    });
+
     // login a user
     router.post(userUrl + 'login', function (req, res) {
         UserModel.findOne({email: req.body.email}, function(error, user){
