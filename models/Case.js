@@ -32,7 +32,7 @@ let CaseSchema = new Schema({
     invalid: Number,
     last_update: Number,
     avatar: String,
-    steam_id: String,
+    user_id: String,
     items: [
         {
             type: Schema.Types.ObjectId,
