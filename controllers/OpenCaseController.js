@@ -1,5 +1,5 @@
 const CaseOpened = require('../models/OpenCase');
-let caseOpenedUrl = '/purchase/';
+let caseOpenedUrl = '/purchases/';
 const Users = require('../models/User');
 const Cases = require('../models/Case');
 const Winnings = require('../models/Winning');
@@ -9,12 +9,12 @@ const request = require('request');
 module.exports = function (router) {
 
     // Get all cases opened byt user
-    router.get(caseOpenedUrl, function (req, res) {
+    router.get(`${caseOpenedUrl}user`, function (req, res) {
         var limit = 12
         var totalCount = 0
         CaseOpened.countDocuments().exec().then(count => {
             totalCount = count
-            CaseOpened.find().limit(limit).skip((req.query.p - 1) * limit).populate('items').exec()
+            CaseOpened.find({ user_id: req.query.id }).limit(limit).skip((req.query.p - 1) * limit).populate('case').exec()
                 .then(docs => res.status(200)
                     .json({
                         "total_count": totalCount,
@@ -43,6 +43,7 @@ module.exports = function (router) {
                             let win = caseFound.items.find(item => item.marketHashName === body.winningItem)
                             winningObject.item = win
                             winningObject.save(function(error, docs){
+                                caseOpenedObject.case = caseFound
                                 caseOpenedObject.save()
                                 user.balance = user.balance - caseFound.price
                                 user.save()

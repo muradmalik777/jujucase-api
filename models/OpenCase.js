@@ -4,9 +4,12 @@ var Schema = mongoose.Schema;
 
 var CaseOpenedSchema = new Schema({
     user_id: String,
-    case_id: String,
     clientHash: String,
-    time: { type: Date, default: Date.now }
+    time: { type: Date, default: Date.now },
+    case: {
+        type: Schema.Types.ObjectId,
+        ref: 'Case'
+    }
 });
 
 const OpenCase = mongoose.model('OpenCase', CaseOpenedSchema);
