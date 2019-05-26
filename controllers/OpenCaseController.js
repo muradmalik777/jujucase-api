@@ -43,6 +43,7 @@ module.exports = function (router) {
                             let win = caseFound.items.find(item => item.marketHashName === body.winningItem)
                             winningObject.item = win
                             winningObject.save(function(error, docs){
+                                caseOpenedObject.case = caseFound
                                 caseOpenedObject.save()
                                 user.balance = user.balance - caseFound.price
                                 user.save()

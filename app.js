@@ -38,6 +38,7 @@ function updateItems(){
                 var newInventoryItem = new Items(item)
                 Items.findOne({ 'marketHashName': item.marketHashName }, function(error, doc){
                     if(!doc){
+                        console.log("new item added from the remote directory")
                         newInventoryItem.save()
                     }
                 });

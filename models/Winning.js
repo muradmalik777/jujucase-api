@@ -9,6 +9,7 @@ var WinningSchema = new Schema({
     outcomeId: String,
     roundSecret: String,
     ticketNumber: Number,
+    winningItem: String,
     time: { type: Date, default: Date.now },
     item: {
         type: Schema.Types.ObjectId,
