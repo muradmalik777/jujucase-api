@@ -21,7 +21,6 @@ cron.schedule("15 13 * * *", function () {
     updateItems()
 });
 
-
 require('./config/passport');
 app.use(require('./routes'));
 

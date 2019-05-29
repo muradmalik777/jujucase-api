@@ -8,6 +8,14 @@ let CaseSchema = new Schema({
         default: "name"
     },
     price: Number,
+    slug: String,
+    spinDuration: Number,
+    status: String,
+    tags: [
+        {
+            type: String
+        }
+    ],
     tax: Number,
     affiliateCut: Number,
     creator: String,
