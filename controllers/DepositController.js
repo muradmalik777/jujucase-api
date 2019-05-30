@@ -19,11 +19,7 @@ module.exports = function (router) {
                         depositData.userId = req.body.user._id
                         var depositObject = new DepositModel(depositData)
                         depositObject.save(function (error, deposit){
-                            user.oldBalance = user.balance
-                            user.balance += deposit.amount
-                            user.save(function (err, user) {
-                                res.status(200).json(body)
-                            });
+                            res.status(200).json(body)
                         })
                     } else {
                         res.status(response.statusCode).json(response)
@@ -36,47 +32,35 @@ module.exports = function (router) {
     });
 
     // Update a deposits
-    router.post(depositUrl + 'success', function (req, res) {
-        DepositModel.find({ transactionId: req.body.transaction_id }, function (err, depositObject) {
-            if (err) {
-                res.json({ info: 'error during find case', error: err });
-            };
-            if (depositObject) {
-                depositObject.success = true
-                depositObject.save(function(error, deposit){
-                    UserModel.findOne({ _id: doc.userId }, function (error, userObject){
-                        userObject.oldBalance = userObject.balance
-                        userObject.balance += deposit.amount
-                        userObject.save(function (err, user) {
-                            res.status(200).json(userObject)
-                        });
-                    })
+    router.post('/payment/success', function (req, res) {
+        DepositModel.findOne({ transactionId: req.body.transaction_id }).exec().then(depositObject => {
+            depositObject.success = true
+            depositObject.save(function (error, deposit) {
+                UserModel.findOne({ _id: doc.userId }, function (error, userObject) {
+                    userObject.oldBalance = userObject.balance
+                    userObject.balance += deposit.amount
+                    userObject.save(function (err, user) {
+                        res.status(200).json({
+                            transaction: deposit,
+                            user: userObject
+                        })
+                    });
                 })
-            } else {
-                res.json({ info: 'case not found' });
-            }
+            })
         });
     });
 
-    router.post(depositUrl + 'failure', function (req, res) {
-        DepositModel.find({ transactionId: req.body.transaction_id }, function (err, depositObject) {
-            if (err) {
-                res.json({ info: 'error during find case', error: err });
-            };
-            if (depositObject) {
-                depositObject.success = true
-                depositObject.save(function (error, deposit) {
-                    UserModel.findOne({ _id: doc.userId }, function (error, userObject) {
-                        userObject.oldBalance = userObject.balance
-                        userObject.balance += deposit.amount
-                        userObject.save(function (err, user) {
-                            res.status(200).json(userObject)
-                        });
+    router.post('/payment/failure', function (req, res) {
+        DepositModel.findOne({ transactionId: req.body.transaction_id }).exec().then(depositObject => {
+            depositObject.success = false
+            depositObject.save(function (error, deposit) {
+                UserModel.findOne({ _id: deposit.userId }, function (error, userObject) {
+                    res.status(200).json({
+                        transaction: deposit,
+                        user: userObject
                     })
                 })
-            } else {
-                res.json({ info: 'case not found' });
-            }
+            })
         });
     });
 };
