@@ -126,5 +126,26 @@ module.exports = function (router) {
             }
         });
     });
+
+    // Get all users - Admin
+    // TODO: Add Admin Authorization
+
+    router.get(userUrl, function (req, res) {
+        var totalCount = 0
+        UserModel.countDocuments().exec().then(count => {
+            totalCount = count
+            UserModel.find().populate('items').exec()
+                .then(docs => res.status(200)
+                    .json({
+                        "total_count": totalCount,
+                        "items": docs
+                    }))
+                .catch(err => res.status(500)
+                    .json({
+                        message: 'Error finding Items',
+                        error: err
+                    }))
+        })
+    });
 };
 

@@ -12,6 +12,8 @@ router.get('/steam',
 
 
 require('../controllers/UserController')(router);
+require('../controllers/AdminController')(router);
+require('../controllers/AuthController')(router);
 require('../controllers/DepositController')(router);
 require('../controllers/CaseController')(router);
 require('../controllers/ItemController')(router);
