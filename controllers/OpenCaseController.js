@@ -8,7 +8,7 @@ const request = require('request');
 
 module.exports = function (router) {
 
-    // Get all cases opened byt user
+    // Get all cases opened by a specific user
     router.get(`${caseOpenedUrl}user`, function (req, res) {
         var limit = 12
         var totalCount = 0
@@ -28,7 +28,7 @@ module.exports = function (router) {
         })
     });
 
-    // Create a case
+    // open/purchase a case for user
     router.post(caseOpenedUrl, function (req, res) {
         let newCase = req.body;
         let caseOpenedObject = new CaseOpened(newCase);

@@ -11,10 +11,13 @@ module.exports = function (router) {
         var totalCount = 0
         Winnings.countDocuments({ user_id: req.body.user_id }).exec().then(count => {
             totalCount = count
-            Winnings.find({ user_id: req.body.user_id }, { roundSecret: 0, ticketNumber: 0, clientHash: 0, outcomeId: 0 } ).limit(limit).skip(req.query.p * limit).populate('item').exec().then(docs => {
-                res.status(200).json({
-                    total_count: totalCount,
-                    items: docs
+            Winnings.find({ user_id: req.body.user_id, sold: false }, { roundSecret: 0, ticketNumber: 0, clientHash: 0, outcomeId: 0 } ).populate('item').exec().then(unsold => {
+                Winnings.find({ user_id: req.body.user_id, sold: true }, { roundSecret: 0, ticketNumber: 0, clientHash: 0, outcomeId: 0 }).populate('item').exec().then(sold => {
+                    res.status(200).json({
+                        total_count: totalCount,
+                        sold_items: sold,
+                        unsold_items: unsold
+                    })
                 })
             })
         })

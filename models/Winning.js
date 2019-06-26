@@ -7,6 +7,7 @@ var WinningSchema = new Schema({
     case_id: String,
     clientHash: String,
     outcomeId: String,
+    sold: { type: Boolean, default: false },
     roundSecret: String,
     ticketNumber: Number,
     winningItem: String,
