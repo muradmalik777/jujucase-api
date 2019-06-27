@@ -2,13 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-var Trades = new Schema({
-    amount:  mongoose.Decimal128,
-    status:  String,
-    code: Number,
-    bot_id: String,
-    steam_id: String,
-    time: Number
+var Trade = new Schema({
+    time: { type: Date, default: Date.now },
+    item: {
+        type: Schema.Types.ObjectId,
+        ref: 'Winning'
+    }
 });
 
-module.exports = mongoose.model('Trades', Trades);
+module.exports = mongoose.model('Trade', Trade);

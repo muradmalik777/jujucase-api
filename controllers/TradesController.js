@@ -13,16 +13,18 @@ module.exports = function (router) {
                 User.findOne({ _id: req.body.user_id }).exec().then(userData => {
                     userData.balance = userData.balance + req.body.item.price
                     winningItem.sold = true
-                    userData.save(function (error, updatedUser) {
-                        winningItem.save(function (error, updatedIWinning) {
-                            res.status(200).json({
-                                user: updatedUser,
-                                success: true
+                    var tradeObject = new Trade(createTrade(req))
+                    tradeObject.save(function(error, tradeData){
+                        userData.save(function (error, updatedUser) {
+                            winningItem.save(function (error, updatedIWinning) {
+                                res.status(200).json({
+                                    user: updatedUser,
+                                    success: true
+                                })
                             })
+
                         })
-
                     })
-
                 })
             } else{
                 res.status(420).json({
@@ -32,3 +34,9 @@ module.exports = function (router) {
         })
     });
 };
+
+function createTrade(request){
+    let data = {}
+    data.item = request.body
+    return data
+}
