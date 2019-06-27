@@ -10,7 +10,7 @@ module.exports = function (router) {
     // user deposits
     router.post(depositUrl, function (req, res) {
         UserModel.findOne({ email: req.body.user.email }, function (error, user) {
-            var url = "https://api.gamerpay.com/merchants/v1/payments?access_token=f898c80e-2e90-4c08-9011-e9b9e22a2e1e"
+            var url = "https://api.gamerpay.com/merchants/v1/payments?access_token=521ef2bf-94dd-4341-9cb6-9aa2fba3705f"
             var depositData = req.body.deposit
             depositData.transactionId = generateId()
             if (user) {
@@ -36,7 +36,7 @@ module.exports = function (router) {
         DepositModel.findOne({ transactionId: req.body.transaction_id }).exec().then(depositObject => {
             depositObject.success = true
             depositObject.save(function (error, deposit) {
-                UserModel.findOne({ _id: doc.userId }, function (error, userObject) {
+                UserModel.findOne({ _id: deposit.userId }, function (error, userObject) {
                     userObject.oldBalance = userObject.balance
                     userObject.balance += deposit.amount
                     userObject.save(function (err, user) {
