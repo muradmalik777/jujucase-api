@@ -84,6 +84,7 @@ module.exports = function (router) {
     router.post(casesUrl, function (req, res) {
         let items = req.body.items;
         let newCase = req.body;
+        newCase.slug = newCase.name.replace(" ", "-").toLowerCase()
         newCase.items = [];
         let caseObject = new Case(newCase);
         caseObject.save(function(err, store) {});
