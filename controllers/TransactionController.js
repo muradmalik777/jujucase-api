@@ -73,7 +73,6 @@ module.exports = function (router) {
                     req.body = {...req.body, steam_id: req.params.steamId};
                     let transactionObject = new Transaction(req.body);
                     transactionObject.save(function (err, user) {
-                        if (err) return console.log(err);
                         res.status(200).json(user)
                     })
                 } else {

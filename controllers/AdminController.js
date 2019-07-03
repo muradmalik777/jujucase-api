@@ -69,8 +69,6 @@ module.exports = function (router) {
 
     // delete admin
     router.delete(`${adminUrl}:id`, middleware, function (req, res) {
-        console.log(req.userId);
-        console.log(req.params.id);
         if (req.userId === req.params.id) {
             res.status(200).json({
                 status: 'You Cannot Delete this admin',

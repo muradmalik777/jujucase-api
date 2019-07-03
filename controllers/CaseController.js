@@ -100,7 +100,6 @@ module.exports = function (router) {
                 itemsProcessed += 1;
                 if (itemsProcessed == totalItems) {
                     caseObject.save(function(err, caseObj) {
-                        if (err) return console.log(err);
                         res.status(200).json(caseObj);
                     });
                 }
@@ -129,7 +128,6 @@ module.exports = function (router) {
                 itemsProcessed += 1;
                 if (itemsProcessed == totalItems) {
                     caseObject.save(function(err, caseObj) {
-                        if (err) return console.log(err);
                         res.status(200).json(caseObj);
                     });
                 }

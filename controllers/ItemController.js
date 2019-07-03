@@ -52,7 +52,6 @@ module.exports = function (router) {
     router.post(itemsUrl, function (req, res) {
         let ItemObject = new Item(req.body);
         ItemObject.save(function (err, user) {
-            if (err) return console.log(err);
             res.status(200).json(user)
         })
     });

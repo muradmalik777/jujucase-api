@@ -71,7 +71,6 @@ module.exports = function (router) {
                     req.body = {...req.body, case_id: req.params.caseId};
                     let caseObject = new CaseItem(req.body);
                     caseObject.save(function (err, user) {
-                        if (err) return console.log(err);
                         res.status(200).json(user)
                     })
                 } else {
