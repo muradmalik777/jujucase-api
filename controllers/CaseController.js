@@ -151,8 +151,6 @@ module.exports = function (router) {
                 } else if (req.files[1] && req.files[1].path) {
                     newCase.case_image = req.files[1].path;
                 }
-                // let caseObject = new Case(newCase);
-                // caseObject.save(function(err, store) {});
                 let itemsProcessed = 0;
                 let totalItems = items.length;
 
@@ -165,11 +163,11 @@ module.exports = function (router) {
                         itemsProcessed += 1;
                         if (itemsProcessed == totalItems) {
                             _.merge(caseObject, newCase);
-                            caseObject.save(function (err) {
+                            caseObject.save(function (err, data) {
                                 if (err) {
                                     res.json({info: 'error during case update', error: err});
                                 };
-                                res.status(200).json(caseObject)
+                                res.status(200).json(data)
                             });
                         }
                     });

@@ -9,7 +9,7 @@ let CaseSchema = new Schema({
     },
     price: Number,
     slug: String,
-    spinDuration: Number,
+    spinDuration: String,
     status: String,
     tags: [
         {
