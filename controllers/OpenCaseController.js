@@ -85,7 +85,8 @@ function dropsData(items) {
     items.forEach(item => {
         let data = {}
         data.name = item.marketHashName,
-            data.value = item.price
+        data.value = item.price
+        data.rate = item.odds/100
         drops.push(data)
     });
     return drops
