@@ -63,6 +63,12 @@ module.exports = function (router) {
             })
         })
     });
+
+    router.get(`${caseOpenedUrl}count/`, function (req, res) {
+        CaseOpened.countDocuments().exec().then(count => {
+            res.status(200).json(count)
+        })
+    });
 };
 
 function winningData(data, hash, user_id, case_id){

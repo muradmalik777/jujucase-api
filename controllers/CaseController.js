@@ -50,12 +50,6 @@ module.exports = function (router) {
         })
     });
 
-    router.get(`${casesUrl}count/`, function (req, res) {
-        Case.countDocuments().exec().then(count => {
-            res.status(200).json(count)
-        })
-    });
-
     // Get case by id
     router.get(`${casesUrl}:id`, function (req, res) {
         Case.findById(req.params.id).populate('items').exec()

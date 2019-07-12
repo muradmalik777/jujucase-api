@@ -27,7 +27,6 @@ module.exports = function (router) {
             var data = inputData(docs.items, req.body.clientHash, req.body.roundSecret)
             let url = "http://pandorarng.azurewebsites.net/outcomes/v1/verify"
             request({ method: 'POST', uri: url, json: data }, function (error, response, body) {
-                console.log(body)
                 if (response.statusCode == 200) {
                     res.status(200).json(body)
                 } else {
