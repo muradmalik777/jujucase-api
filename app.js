@@ -8,8 +8,21 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-mongoose.connect('mongodb://localhost:27017/jujucase', { useNewUrlParser: true });
-const db = mongoose.connection
+
+let db;
+
+switch(process.env.NODE_ENV) {
+    case 'production': {
+        mongoose.connect('mongodb://mongodb.default.svc.cluster.local:27017/jujucase', { useNewUrlParser: true });
+        db = mongoose.connection;
+        break;
+    }
+
+    case 'development': {
+        mongoose.connect('mongodb://localhost:27017/jujucase', { useNewUrlParser: true });
+        db = mongoose.connection;
+    }
+}
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -22,6 +35,20 @@ cron.schedule("15 13 * * *", function () {
 });
 
 require('./config/passport');
+
+app.use(function(req, res, next) {
+    var allowedOrigins = ['https://jujucase.com', 'https://www.jujucase.com', 'https://test.jujucase.com'];
+    var origin = req.headers.origin;
+    if(allowedOrigins.indexOf(origin) > -1){
+         res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', true);
+    return next();
+  });
+
 app.use(require('./routes'));
 
 app.listen(8081, () => console.log('Server running on http://localhost:8081/'));
