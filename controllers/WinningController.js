@@ -22,7 +22,7 @@ module.exports = function (router) {
         })
     });
 
-    router.post('/user/winning/verify', function (req, res) {
+    router.post('/winning/verify', function (req, res) {
         Case.findOne({ _id: req.body.case_id }).populate('items').exec().then(docs => {
             var data = inputData(docs.items, req.body.clientHash, req.body.roundSecret)
             let url = "http://pandorarng.azurewebsites.net/outcomes/v1/verify"

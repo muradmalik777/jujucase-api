@@ -6,8 +6,8 @@ const mongoose = require('mongoose');
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 mongoose.connect('mongodb://localhost:27017/jujucase', { useNewUrlParser: true });
 const db = mongoose.connection
 

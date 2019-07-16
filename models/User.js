@@ -20,7 +20,6 @@ var UserSchema = new Schema({
         type: String,
         default: null
     },
-    referral: String,
     code: String,
     hash: String,
     mute: {
@@ -43,7 +42,15 @@ var UserSchema = new Schema({
         type: Number,
         default: 0
     },
-    banReason: String
+    banReason: String,
+    reference: {
+        type: String,
+        default: ""
+    },
+    has_applied_verification: {
+        type: Boolean,
+        default: false
+    }
 
 });
 
