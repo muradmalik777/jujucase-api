@@ -11,10 +11,10 @@ module.exports = function (router) {
     router.post(depositUrl, function (req, res) {
         UserModel.findOne({ email: req.body.user.email }, function (error, user) {
             var url = "https://api.gamerpay.com/merchants/v1/payments?access_token=521ef2bf-94dd-4341-9cb6-9aa2fba3705f"
-            var depositData = req.body.deposit
-            depositData.transactionId = generateId()
+            var depositData = prepareData(req.body.deposit.amount)
+            console.log(depositData)
             if (user) {
-                request({ method: 'POST', uri: url, json: depositData }, function (error, response, body) {
+                request({ method: 'POST', uri: url, json: depositData}, function (error, response, body) {
                     if (response.statusCode == 200) {
                         depositData.userId = req.body.user._id
                         var depositObject = new DepositModel(depositData)
@@ -64,3 +64,15 @@ module.exports = function (router) {
         });
     });
 };
+
+function prepareData(amt){
+    var data = {}
+    data.transactionId = generateId()
+    data.amount = amt
+    data.currency = "USD",
+    data.description = "Added Funds " + amt,
+    data.successUrl = "http://127.0.0.1:8080/payment/success",
+    data.cancelUrl = "http://127.0.0.1:8080/payment/failure",
+    data.customValue = ""
+    return data
+}
