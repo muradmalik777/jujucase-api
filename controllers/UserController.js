@@ -87,6 +87,37 @@ module.exports = function (router) {
         })
     });
 
+    // verify a user
+    router.post(`${userUrl}verify`, function (req, res) {
+        UserModel.findById(req.body.user._id).exec().then(user => {
+            var url = "https://shuftipro.com/api/";
+            var head = {
+                'Authorization': 'Basic NEZaUG9yaXh2RzlLSGJkcVdVQnJrR0FoM3VmMUZMWjBybnhnNUdKWmViSExnSVhQZmwxNTYwNTg5MjQ3OiQyeSQxMCRuYzk0a29zb3RrVG9RV21yNVFpd0pPVFZMNUxkQ08wR2FtQi9yU3ovSWZybGhhc3dqTU1EcQ==',
+                'Secret': '$2y$10$nc94kosotkToQWmr5QiwJOTVL5LdCO0GamB/rSz/IfrlhaswjMMDq'
+            }
+            var data = prepareData(req.body)
+            request({ method: 'POST', uri: url, json: data, headers: head }, function (error, response, body) {
+                if (response.statusCode == 200) {
+                    // var resp = JSON.parse(body)
+                    user.reference = body.reference
+                    user.has_applied_verification = true
+                    user.save(function(err, user){
+                        res.status(200).json({
+                            user: user,
+                            success: true
+                        })
+                    })
+                } else {
+                    res.sendStatus(response.statusCode).json(response.statusMessage)
+                }
+            });
+        })
+    });
+
+    router.get(`${userUrl}verify/result`, function (req, res) {
+        console.log("KYC api hit ------ " + req)
+    });
+
     // user deposits
     router.post(userUrl + 'deposit', function (req, res) {
         UserModel.findOne({ email: req.body.user.email }, function (error, user) {
@@ -149,3 +180,11 @@ module.exports = function (router) {
     });
 };
 
+function prepareData(body){
+    var data = {}
+    data.reference = generateId()
+    data.verification_mode = "any"
+    data.callback_url = "http://127.0.0.1:8081/user/verifiy/result"
+    data.document = body
+    return data
+}
