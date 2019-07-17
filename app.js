@@ -13,7 +13,7 @@ let db;
 
 switch(process.env.NODE_ENV) {
     case 'production': {
-        mongoose.connect('mongodb://mongodb.default.svc.cluster.local:27017/jujucase', { useNewUrlParser: true });
+        mongoose.connect('mongodb://jujucase-api:sK6MHKZ4Pslf1@mongodb.default.svc.cluster.local/jujucase', { useNewUrlParser: true });
         db = mongoose.connection;
         break;
     }
@@ -29,27 +29,20 @@ db.once('open', function () {
     console.log('Connected to MongoDB');
 });
 
-// updateItems()
+updateItems()
 cron.schedule("15 13 * * *", function () {
     updateItems()
 });
 
 require('./config/passport');
 
-app.use(function(req, res, next) {
-    var allowedOrigins = ['https://jujucase.com', 'https://www.jujucase.com', 'https://test.jujucase.com'];
-    var origin = req.headers.origin;
-    if(allowedOrigins.indexOf(origin) > -1){
-         res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.header('Access-Control-Allow-Credentials', true);
-    return next();
-  });
-
 app.use(require('./routes'));
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 app.listen(8081, () => console.log('Server running on http://localhost:8081/'));
 

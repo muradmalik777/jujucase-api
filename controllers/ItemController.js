@@ -6,7 +6,7 @@ module.exports = function (router) {
 
     // Get all items
     router.get(itemsUrl, function (req, res) {
-        var limit = 12
+        var limit = 10
         var totalCount = 0
         Item.countDocuments({ price: { $gt: 0 } }).exec().then(count => {
             totalCount = count
