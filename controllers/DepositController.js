@@ -2,6 +2,7 @@ const request = require('request');
 const DepositModel = require('../models/Deposit');
 const UserModel = require('../models/User');
 const generateId = require('uniqid');
+require('dotenv').config();
 let depositUrl = '/deposit/';
 
 
@@ -68,11 +69,20 @@ module.exports = function (router) {
 function prepareData(amt){
     var data = {}
     data.transactionId = generateId()
-    data.amount = amt
-    data.currency = "USD",
-    data.description = "Added Funds " + amt,
-    data.successUrl = "http://127.0.0.1:8080/payment/success",
-    data.cancelUrl = "http://127.0.0.1:8080/payment/failure",
-    data.customValue = ""
+    data.amount = amt;
+    data.currency = "USD";
+    data.description = "Added Funds " + amt;
+    data.customValue = "";
+    if (process.env.NODE_ENV === 'development') {
+        data.successUrl = "http://127.0.0.1:8080/payment/success";
+        data.cancelUrl = "http://127.0.0.1:8080/payment/failure";
+    } else if (process.env.NODE_ENV === 'test'){
+        data.successUrl = "https://test.jujucase.com/payment/success";
+        data.cancelUrl = "https://test.jujucase.com/payment/failure";
+    } else {
+        data.successUrl = "https://jujucase.com/payment/success";
+        data.cancelUrl = "https://jujucase.com/payment/failure";
+    }
+
     return data
 }
