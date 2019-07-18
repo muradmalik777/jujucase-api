@@ -24,6 +24,25 @@ module.exports = function (router) {
         })
     });
 
+    // Search all items
+    router.get(`${itemsUrl}search`, function (req, res) {
+        var limit = 12;
+        var regex = new RegExp(".*" + req.query.searchTerm + ".*", "i");
+        Item.countDocuments({ marketHashName: regex }).exec().then(count => {
+            Item.find({ marketHashName: regex }).limit(limit).skip(req.query.p * limit).exec()
+                .then(docs => res.status(200)
+                    .json({
+                        "total_count": count,
+                        "items": docs
+                    }))
+                .catch(err => res.status(500)
+                    .json({
+                        message: 'Error searching Items',
+                        error: err
+                    }))
+        });
+    });
+
     // Get Item by id
     router.get(`${itemsUrl}:id`, function (req, res) {
         Item.findById(req.params.id).exec()
