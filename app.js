@@ -18,8 +18,8 @@ switch(process.env.NODE_ENV) {
         break;
     }
 
-    case 'development': {
-        mongoose.connect('mongodb://localhost:27017/jujucase', { useNewUrlParser: true });
+    default: {
+        mongoose.connect('mongodb://jujucase-api:sK6MHKZ4Pslf1@localhost:27017/jujucase', { useNewUrlParser: true });
         db = mongoose.connection;
     }
 }
@@ -29,7 +29,7 @@ db.once('open', function () {
     console.log('Connected to MongoDB');
 });
 
-updateItems()
+//updateItems()
 cron.schedule("15 13 * * *", function () {
     updateItems()
 });
