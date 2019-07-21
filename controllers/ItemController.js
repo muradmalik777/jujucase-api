@@ -6,7 +6,7 @@ module.exports = function (router) {
 
     // Get all items
     router.get(itemsUrl, function (req, res) {
-        var limit = 12
+        var limit = 10
         var totalCount = 0
         Item.countDocuments({ price: { $gt: 0 } }).exec().then(count => {
             totalCount = count
@@ -27,20 +27,38 @@ module.exports = function (router) {
     // Search all items
     router.get(`${itemsUrl}search`, function (req, res) {
         var limit = 12;
-        var regex = new RegExp(".*" + req.query.searchTerm + ".*", "i");
-        Item.countDocuments({ marketHashName: regex }).exec().then(count => {
-            Item.find({ marketHashName: regex }).limit(limit).skip(req.query.p * limit).exec()
-                .then(docs => res.status(200)
-                    .json({
-                        "total_count": count,
-                        "items": docs
-                    }))
-                .catch(err => res.status(500)
-                    .json({
-                        message: 'Error searching Items',
-                        error: err
-                    }))
-        });
+        // var regex = new RegExp(".*" + req.query.searchTerm + ".*", "i");
+        // Item.countDocuments({ marketHashName: regex }).exec().then(count => {
+        //     Item.find({ marketHashName: regex }).limit(limit).skip(req.query.p * limit).exec()
+        //         .then(docs => res.status(200)
+        //             .json({
+        //                 "total_count": count,
+        //                 "items": docs
+        //             }))
+        //         .catch(err => res.status(500)
+        //             .json({
+        //                 message: 'Error searching Items',
+        //                 error: err
+        //             }))
+        // });
+
+        Item.find(
+            { $text: { $search: req.query.searchTerm } },
+            { score: { $meta: 'textScore' } } )
+            .sort( { score: { $meta: "textScore" } } )
+            .exec()
+            .then(docs => res.status(200)
+                .json({
+                    "total_count": docs.length,
+                    "items": docs
+                }))
+            .catch(err => res.status(500)
+                .json({
+                   message: 'Error searching Items',
+                    error: err
+            }))
+        
+        
     });
 
     // Get Item by id
