@@ -13,7 +13,6 @@ module.exports = function (router) {
         UserModel.findOne({ email: req.body.user.email }, function (error, user) {
             var url = "https://api.gamerpay.com/merchants/v1/payments?access_token=521ef2bf-94dd-4341-9cb6-9aa2fba3705f"
             var depositData = prepareData(req.body.deposit.amount)
-            console.log(depositData)
             if (user) {
                 request({ method: 'POST', uri: url, json: depositData}, function (error, response, body) {
                     if (response.statusCode == 200) {
