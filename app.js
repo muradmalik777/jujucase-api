@@ -15,14 +15,15 @@ let db;
 
 switch(process.env.NODE_ENV) {
     case 'production': {
-        mongoose.connect('mongodb://mongodb.default.svc.cluster.local:27017/jujucase', { useNewUrlParser: true });
+        mongoose.connect('mongodb://jujucase-api:sK6MHKZ4Pslf1@mongodb.default.svc.cluster.local:27017/jujucase', { useNewUrlParser: true });
         db = mongoose.connection;
         break;
     }
 
-    case 'development': {
-        mongoose.connect('mongodb://localhost:27017/jujucase', { useNewUrlParser: true });
+    default: {
+        mongoose.connect('mongodb://jujucase-api:sK6MHKZ4Pslf1@localhost:27017/jujucase', { useNewUrlParser: true });
         db = mongoose.connection;
+        break;
     }
 } 
 
