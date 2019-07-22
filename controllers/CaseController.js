@@ -103,21 +103,21 @@ module.exports = function (router) {
     });
 
     // Admin creates a case
-    router.post('/admin' + casesUrl, upload.array('images', 2), function (req, res) {
-        let items = JSON.parse(req.body.items);
+    router.post('/admin' + casesUrl, function (req, res) {
+        let items = req.body.items
         let newCase = req.body;
         newCase.items = [];
-        console.log(req.files)
-        if (process.env.NODE_ENV === 'development') {
-            newCase.skin_image = "http://localhost:8081/" + req.files[1].path;
-            newCase.case_image = "http://localhost:8081/" + req.files[0].path;
-        } else if (process.env.NODE_ENV === 'test') {
-            newCase.skin_image = "https://test.jujucase.com/" + req.files[1].path;
-            newCase.case_image = "https://test.jujucase.com/" + req.files[0].path;
-        } else {
-            newCase.skin_image = "https://jujucase.com/" + req.files[1].path;
-            newCase.case_image = "https://jujucase.com/" + req.files[0].path;
-        }
+        
+        // if (process.env.NODE_ENV === 'development') {
+        //     newCase.skin_image = "http://localhost:8081/" + req.files[1].path;
+        //     newCase.case_image = "http://localhost:8081/" + req.files[0].path;
+        // } else if (process.env.NODE_ENV === 'test') {
+        //     newCase.skin_image = "https://test.jujucase.com/" + req.files[1].path;
+        //     newCase.case_image = "https://test.jujucase.com/" + req.files[0].path;
+        // } else {
+        //     newCase.skin_image = "https://jujucase.com/" + req.files[1].path;
+        //     newCase.case_image = "https://jujucase.com/" + req.files[0].path;
+        // }
         let caseObject = new Case(newCase);
         caseObject.save(function(err, store) {});
         let itemsProcessed = 0;
