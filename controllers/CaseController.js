@@ -107,7 +107,7 @@ module.exports = function (router) {
         let items = req.body.items
         let newCase = req.body;
         newCase.items = [];
-        
+
         // if (process.env.NODE_ENV === 'development') {
         //     newCase.skin_image = "http://localhost:8081/" + req.files[1].path;
         //     newCase.case_image = "http://localhost:8081/" + req.files[0].path;
@@ -140,21 +140,21 @@ module.exports = function (router) {
     });
 
     // Admin Updates a case
-    router.put(`/admin${casesUrl}:id`, upload.array('images', 2), function (req, res) {
+    router.put(`/admin${casesUrl}:id`, function (req, res) {
         Case.findById(req.params.id, function (err, caseObject) {
             if (err) {
                 res.json({info: 'error during find case', error: err});
             };
             if (caseObject) {
-                let items = JSON.parse(req.body.items);
+                let items = req.body.items;
                 let newCase = req.body;
                 newCase.items = [];
                 caseObject.items = [];
-                if (req.files[0] && req.files[0].path) {
-                    newCase.skin_image = req.files[0].path;
-                } else if (req.files[1] && req.files[1].path) {
-                    newCase.case_image = req.files[1].path;
-                }
+                // if (req.files[0] && req.files[0].path) {
+                //     newCase.skin_image = req.files[0].path;
+                // } else if (req.files[1] && req.files[1].path) {
+                //     newCase.case_image = req.files[1].path;
+                // }
                 let itemsProcessed = 0;
                 let totalItems = items.length;
 
