@@ -65,7 +65,7 @@ module.exports = function (router) {
                     }
                 })
             } else {
-                res.status(response.statusCode).json({ message: response.statusMessage })
+                res.status(response.statusCode).json({ message: "Item not Available" })
             }
         });
     });
