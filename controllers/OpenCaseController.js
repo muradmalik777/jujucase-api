@@ -14,7 +14,7 @@ module.exports = function (router) {
         var totalCount = 0
         CaseOpened.countDocuments().exec().then(count => {
             totalCount = count
-            CaseOpened.find({ user_id: req.query.id }).limit(limit).skip((req.query.p - 1) * limit).populate('case').exec()
+            CaseOpened.find({ user_id: req.query.id }).sort({time: -1}).limit(limit).skip((req.query.p - 1) * limit).populate('case').exec()
                 .then(docs => res.status(200)
                     .json({
                         "total_count": totalCount,
