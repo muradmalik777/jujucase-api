@@ -46,7 +46,7 @@ module.exports = function (router) {
 
 function inputData(items, hash, secret) {
     let data = {
-        clienHash: hash,
+        clientHash: hash,
         roundSecret: secret,
         drops: dropsData(items)
     }
