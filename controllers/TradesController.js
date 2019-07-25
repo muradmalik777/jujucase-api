@@ -38,12 +38,11 @@ module.exports = function (router) {
     });
 
     router.post(`${TradeUrl}withdraw`, function (req, res) {
-        console.log(req.body.item.marketHashName)
         const url = "https://api.skingifts.com/orders/v1/purchase/"+ req.body.item.marketHashName +"?apiKey=670706c3-f223-414b-b748-d47dc6f40527"
         request({ method: 'GET', uri: url }, function (error, response, body) {
             if (response.statusCode == 200) {
                 var resp = JSON.parse(body)
-                Winnings.findOne({ _id: req.body._id, withdrawn: false, sold: false }).exec().then(winningItem => {
+                Winnings.findOne({ _id: req.body._id, user_id: req.body.user_id, withdrawn: false, sold: false }).exec().then(winningItem => {
                     if (winningItem) {
                         winningItem.withdrawn = true
                         winningItem.voucherCode = resp.code
