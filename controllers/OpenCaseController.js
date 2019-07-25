@@ -80,7 +80,7 @@ function winningData(data, hash, user_id, case_id){
 
 function inputData(items, hash) {
     let data = {
-        clienHash: hash,
+        clientHash: hash,
         drops: dropsData(items)
     }
     return data
