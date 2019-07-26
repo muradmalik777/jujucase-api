@@ -38,15 +38,16 @@ module.exports = function (router) {
     });
 
     router.post(`${TradeUrl}withdraw`, function (req, res) {
-        const url = "https://api.skingifts.com/orders/v1/purchase/"+ req.body.item.marketHashName +"?apiKey=670706c3-f223-414b-b748-d47dc6f40527"
-        request({ method: 'GET', uri: url }, function (error, response, body) {
-            if (response.statusCode == 200) {
-                var resp = JSON.parse(body)
-                Winnings.findOne({ _id: req.body._id, user_id: req.body.user_id, withdrawn: false, sold: false }).exec().then(winningItem => {
-                    if (winningItem) {
+        Winnings.findOne({ _id: req.body._id, user_id: req.body.user_id, withdrawn: false, sold: false }).exec().then(winningItem => {
+            if (winningItem) {
+                const url = "https://api.skingifts.com/orders/v1/purchase/" + encodeURI(req.body.item.marketHashName) + "?apiKey=670706c3-f223-414b-b748-d47dc6f40527"
+                request({ method: 'GET', uri: url }, function (error, response, body) {
+                    console.log(response)
+                    if (response.statusCode == 200) {
+                        var resp = JSON.parse(body)
                         winningItem.withdrawn = true
                         winningItem.voucherCode = resp.code
-                        winningItem.withdrawlUrl = "https://www.skingifts.com/" + resp.code 
+                        winningItem.withdrawlUrl = "https://www.skingifts.com/" + resp.code
                         var tradeObject = new Trade(createTrade(req))
                         tradeObject.tradeReason = "item withdrawn"
                         tradeObject.save(function (error, tradeData) {
@@ -58,15 +59,15 @@ module.exports = function (router) {
                             })
                         })
                     } else {
-                        res.status(420).json({
-                            message: "Item withdrawn already"
-                        })
+                        res.status(response.statusCode).json({ message: "Item not Available" })
                     }
-                })
+                });
             } else {
-                res.status(response.statusCode).json({ message: "Item not Available" })
+                res.status(420).json({
+                    message: "Item withdrawn already"
+                })
             }
-        });
+        })
     });
 };
 
